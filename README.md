@@ -183,3 +183,258 @@ that is being verified in the last hour in the transaction history;
 
 2.There are transactions from 2 unique IP addresses other than the IP of the transaction</br>
 that is being verified in the last hour in the transaction history.
+
+
+### Examples
+
+The following examples are using the JSON format.
+
+#### Signup
+
+```
+POST /api/auth/user
+{
+   "name": "<String value, not empty>",
+   "username": "<String value, not empty>",
+   "password": "<String value, not empty>"
+}
+```
+
+Response:
+
+```
+{
+    "id": 1,
+    "name": "John Doe",
+    "username": "JohnDoe",
+    "role": "ADMINISTRATOR"
+}
+```
+
+#### Delete user
+
+```
+DELETE /api/auth/user/{username}
+```
+
+Response:
+
+```
+{
+   "username": "JohnDoe",
+   "status": "Deleted successfully!"
+}
+```
+
+#### Get user list
+
+```
+GET /api/auth/list
+```
+
+Response:
+
+```
+[
+    {
+        "id": <user1 id>,
+        "name": "<user1 name>",
+        "username": "<user1 username>",
+        "role": "<user1 role>"
+    },
+     ...
+    {
+        "id": <userN id>,
+        "name": "<userN name>",
+        "username": "<userN username>",
+        "role": "<userN role>"
+    }
+]
+```
+
+#### Update user role
+
+```
+PUT /api/auth/role
+{
+   "username": "<String value, not empty>",
+   "role": "<String value, not empty>"
+}
+```
+
+Response:
+
+```
+{
+   "id": <Long value, not empty>,
+   "name": "<String value, not empty>",
+   "username": "<String value, not empty>",
+   "role": "<String value, not empty>"
+}
+```
+
+#### Update user access
+
+```
+PUT /api/auth/access
+{
+   "username": "<String value, not empty>",
+   "operation": "<[LOCK, UNLOCK]>"  // determines whether the user will be activated or deactivated
+}
+```
+
+Response:
+
+```
+{
+    "status": "User <username> <[locked, unlocked]>!"
+}
+```
+
+#### Post transaction
+
+```
+POST /api/antifraud/transaction
+{
+  "amount": <Long>,
+  "ip": "<String value, not empty>",
+  "number": "<String value, not empty>",
+  "region": "<String value, not empty>",
+  "date": "yyyy-MM-ddTHH:mm:ss"
+}
+```
+
+Response:
+
+```
+{
+   "result": "ALLOWED",
+   "info": "none"
+}
+```
+
+#### Save suspicious IP
+
+```
+POST /api/antifraud/suspicious-ip
+{
+  "ip": "<String value, not empty>"
+}
+```
+
+Response:
+
+```
+{
+   "id": "<Long value, not empty>",
+   "ip": "<String value, not empty>"
+}
+```
+
+#### Delete suspicious IP
+
+```
+DELETE /api/antifraud/suspicious-ip/{ip}
+```
+
+Response:
+
+```
+{
+   "status": "IP <ip address> successfully removed!"
+}
+```
+
+#### Save stolen card number
+
+```
+POST /api/antifraud/stolencard
+{
+  "number": "<String value, not empty>"
+}
+```
+
+Response:
+
+```
+{
+   "id": "<Long value, not empty>",
+   "number": "<String value, not empty>"
+}
+```
+
+#### Delete stolen card number
+
+```
+DELETE /api/antifraud/stolencard/{number}
+```
+
+Response:
+
+```
+{
+   "status": "Card <number> successfully removed!"
+}
+```
+
+#### Add transaction feedback
+
+```
+PUT /api/antifraud/transaction
+{
+   "transactionId": <Long>,
+   "feedback": "<String>"
+}
+```
+
+Response:
+
+```
+{
+  "transactionId": <Long>,
+  "amount": <Long>,
+  "ip": "<String value, not empty>",
+  "number": "<String value, not empty>",
+  "region": "<String value, not empty>",
+  "date": "yyyy-MM-ddTHH:mm:ss",
+  "result": "<String>",
+  "feedback": "<String>"
+}
+```
+
+#### Get transaction history
+
+```
+GET /api/antifraud/history/{number}
+```
+
+Response:
+
+```
+[
+    {
+      "transactionId": <Long>,
+      "amount": <Long>,
+      "ip": "<String value, not empty>",
+      "number": number,
+      "region": "<String value, not empty>",
+      "date": "yyyy-MM-ddTHH:mm:ss",
+      "result": "<String>",
+      "feedback": "<String>"
+    },
+     ...
+    {
+      "transactionId": <Long>,
+      "amount": <Long>,
+      "ip": "<String value, not empty>",
+      "number": number,
+      "region": "<String value, not empty>",
+      "date": "yyyy-MM-ddTHH:mm:ss",
+      "result": "<String>",
+      "feedback": "<String>"
+    }
+]
+```
+
+_Note that these are just basic examples of the most common endpoints. The full list of endpoints is available in the
+table above._
